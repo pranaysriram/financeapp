@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/style.css">
+<title>Register</title>
+</head>
+
+<body class="register-body">
+
+<!-- Header -->
+<header class="register-header">
+  <div class="logo">FINANCE APP</div>
+  <div class="header-buttons">
+    <a href="/login" class="login-btn-header">Login</a>
+    <a href="#" class="signup-btn">Sign up</a>
+  </div>
+</header>
+
+<!-- Register Container -->
+<div class="register-container">
+  <div class="register-box">
+    <h1 class="register-heading">Join Finance App to start tracking</h1>
+    
+    {% if error %}
+    <div class="error-message">{{ error }}</div>
+    {% endif %}
+    <!-- Google SignUp Button -->
+    <button class="google-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" style="margin-right: 10px;">
+        <text x="2" y="18" font-size="16">G</text>
+      </svg>
+      Continue with Google
+    </button>
+    
+    <!-- OR Separator -->
+    <div class="or-separator">
+      <span>OR</span>
+    </div>
+    
+    <!-- Register Form -->
+    <form method="post" class="register-form">
+      <div class="form-group">
+        <input type="text" name="username" placeholder="Full Name" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Email" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <div class="password-container">
+          <input type="password" name="password" placeholder="Password" class="form-input" id="register-password-input" required>
+          <button type="button" class="toggle-password" onclick="toggleRegisterPassword()">👁️</button>
+        </div>
+      </div>
+      
+      <div class="form-group checkbox-group">
+        <input type="checkbox" id="terms" name="terms" required>
+        <label for="terms" class="terms-label">I agree to <a href="#" class="terms-link">Finance App's Terms</a>.</label>
+      </div>
+      
+      <button type="submit" class="register-button">REGISTER</button>
+    </form>
+    
+    <!-- Help Footer -->
+    <div class="help-footer">
+      If something is not right, email us at <a href="mailto:help@financeapp.com" class="help-email">help@financeapp.com</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleRegisterPassword() {
+  const input = document.getElementById('register-password-input');
+  if (input.type === 'password') {
+    input.type = 'text';
+  } else {
+    input.type = 'password';
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance App</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Finance System</h1>
+
+  <div class="welcome-section">
+    <p>Welcome, <strong>{{user}}</strong></p>
+    <p>Role: <span class="role-badge role-{{role}}">{{role.upper()}}</span></p>
+  </div>
+
+  <div class="menu-section">
+    <h2>Menu</h2>
+    
+    {% if role == "admin" %}
+    <div class="role-info">
+      <h3>Admin Access</h3>
+      <p>You have full access to the system.</p>
+    </div>
+    <a href="/add" class="btn btn-primary">+ Add Transaction</a>
+    {% elif role == "analyst" %}
+    <div class="role-info">
+      <h3>Analyst Access</h3>
+      <p>You can view records, apply filters, and access detailed insights.</p>
+    </div>
+    {% elif role == "viewer" %}
+    <div class="role-info">
+      <h3>Viewer Access</h3>
+      <p>You can view transactions and summaries.</p>
+    </div>
+    {% endif %}
+
+    <div class="button-group">
+      <a href="/transactions" class="btn btn-primary">View Transactions</a>
+      
+      {% if role in ["admin", "analyst"] %}
+      <a href="/insights" class="btn btn-primary">View Insights</a>
+      {% endif %}
+      
+      <a href="/summary" class="btn btn-primary">View Summary</a>
+      <a href="/logout" class="btn btn-secondary">Logout</a>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

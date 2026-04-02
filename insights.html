@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/style.css">
+<title>Insights & Analytics</title>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Financial Insights & Analytics</h2>
+
+  <div class="nav-buttons">
+    <a href="/" class="btn btn-secondary">Back to Home</a>
+    <a href="/transactions" class="btn btn-primary">View Transactions</a>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="insights-grid">
+    <div class="insight-card">
+      <h3>Total Income</h3>
+      <p class="amount income">${{ income }}</p>
+    </div>
+
+    <div class="insight-card">
+      <h3>Total Expenses</h3>
+      <p class="amount expense">${{ expense }}</p>
+    </div>
+
+    <div class="insight-card">
+      <h3>Balance</h3>
+      <p class="amount {% if balance >= 0 %}positive{% else %}negative{% endif %}">${{ balance }}</p>
+    </div>
+
+    <div class="insight-card">
+      <h3>Total Transactions</h3>
+      <p class="amount">{{ total_transactions }}</p>
+    </div>
+  </div>
+
+  <!-- Category Breakdown -->
+  <div class="insights-section">
+    <h3>Category Breakdown</h3>
+    <table>
+      <tr>
+        <th>Category</th>
+        <th>Type</th>
+        <th>Total Amount</th>
+        <th>Percentage</th>
+      </tr>
+      {% set total_amount = income + expense %}
+      {% for cat in category_data %}
+      <tr>
+        <td>{{ cat[0] }}</td>
+        <td>
+          <span class="badge {% if cat[1] == 'income' %}badge-income{% else %}badge-expense{% endif %}">
+            {{ cat[1].upper() }}
+          </span>
+        </td>
+        <td>${{ cat[2] }}</td>
+        <td>
+          {% if total_amount > 0 %}
+          {{ "%.1f"|format((cat[2] / total_amount) * 100) }}%
+          {% else %}
+          0%
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <!-- Monthly Breakdown -->
+  <div class="insights-section">
+    <h3>Monthly Breakdown</h3>
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Total Amount</th>
+      </tr>
+      {% for month in monthly_data %}
+      <tr>
+        <td>{{ month[0] }}</td>
+        <td>
+          <span class="badge {% if month[1] == 'income' %}badge-income{% else %}badge-expense{% endif %}">
+            {{ month[1].upper() }}
+          </span>
+        </td>
+        <td>${{ month[2] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+</div>
+
+</body>
+</html>
