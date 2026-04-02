@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/style.css">
+<title>Transactions</title>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Transactions</h2>
+
+  <div class="nav-buttons">
+    <a href="/" class="btn btn-secondary">Back to Home</a>
+    {% if role in ["admin", "analyst"] %}
+    <a href="/insights" class="btn btn-primary">View Insights</a>
+    {% endif %}
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <h3>Filter Transactions</h3>
+    <form method="get" class="filter-form">
+      <div class="filter-group">
+        <label for="type">Type:</label>
+        <select name="type" id="type">
+          <option value="">All Types</option>
+          <option value="income" {% if filter_type == 'income' %}selected{% endif %}>Income</option>
+          <option value="expense" {% if filter_type == 'expense' %}selected{% endif %}>Expense</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="category">Category:</label>
+        <select name="category" id="category">
+          <option value="">All Categories</option>
+          {% for cat in categories %}
+          <option value="{{ cat }}" {% if filter_category == cat %}selected{% endif %}>{{ cat }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="date">Date:</label>
+        <input type="date" name="date" id="date" value="{{ filter_date }}">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Apply Filters</button>
+      <a href="/transactions" class="btn btn-secondary">Clear Filters</a>
+    </form>
+  </div>
+
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Amount</th>
+      <th>Type</th>
+      <th>Category</th>
+      <th>Date</th>
+      <th>Note</th>
+      <th>Action</th>
+    </tr>
+
+    {% for t in data %}
+    <tr>
+      <td>{{t[0]}}</td>
+      <td>${{t[1]}}</td>
+      <td>{{t[2]}}</td>
+      <td>{{t[3]}}</td>
+      <td>{{t[4]}}</td>
+      <td>{{t[5]}}</td>
+
+      <td>
+        {% if role == "admin" %}
+        <a href="/delete/{{t[0]}}" class="btn-delete">Delete</a>
+        {% else %}
+        <span class="view-only">View Only</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  {% if not data %}
+  <p class="no-data">No transactions found. Try adjusting your filters.</p>
+  {% endif %}
+</div>
+
+</body>
+</html>
